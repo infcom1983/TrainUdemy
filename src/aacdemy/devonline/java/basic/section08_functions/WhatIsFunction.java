@@ -2,10 +2,16 @@ package aacdemy.devonline.java.basic.section08_functions;
 
 public class WhatIsFunction {
     public static void main(String[] args) {
-        int[] array = {1, 2, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 1};
+        int[] array1 = {1, 2, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 1};
+        displayResults(array1, calculateStatistics(array1));
+        System.out.println("------------");
+        int[] array2 = {1, 2, 3, 4, 4, 4, 4, 5, 5, 5, 7, 1};
+        displayResults(array2, calculateStatistics(array2));
 
-        int[][] result = calculateStatistics(array);
 
+    }
+
+    private static void displayResults(int[] array, int[][] result) {
         for (int i = 0; i < result.length; i++) {
             System.out.println(result[i][0] + " = " + ((double) result[i][1] * 100 / array.length) + " %");
         }
@@ -17,22 +23,19 @@ public class WhatIsFunction {
         int count = 0;
         for (int i = 0; i < array.length; i++) {
             var element = array[i];
-
-            var exists = ifExists(count, unique, element);
-            if (!exists) {
-                var number = calculateElementCount(array, i, element);
-
-                count = addToResult(unique, count, element, counts, number);
+            if (!isAlreadyProcessed(unique, count, element)) {
+                int number = calculateElementCount(array, i, element);
+                count = addToResult(unique, counts, count, element, number);
             }
         }
 
         return convert(count, unique, counts);
     }
 
-    private static boolean ifExists(int count, int[] unique, int element) {
+    private static boolean isAlreadyProcessed(int[] array, int count, int element) {
         var exists = false;
         for (int j = 0; j < count; j++) {
-            if (unique[j] == element) {
+            if (array[j] == element) {
                 exists = true;
                 break;
             }
@@ -50,7 +53,7 @@ public class WhatIsFunction {
         return number;
     }
 
-    private static int addToResult(int[] unique, int count, int element, int[] counts, int number) {
+    private static int addToResult(int[] unique, int[] counts, int count, int element, int number) {
         unique[count] = element;
         counts[count] = number;
         count++;

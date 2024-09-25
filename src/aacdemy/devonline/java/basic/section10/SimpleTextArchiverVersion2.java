@@ -1,8 +1,6 @@
 package aacdemy.devonline.java.basic.section10;
 
-import aacdemy.devonline.java.basic.section06_array.StringBasicMethods;
-
-public class SimpleTextArchiver {
+public class SimpleTextArchiverVersion2 {
     public static void main(String[] args) {
 
         String source = "A".repeat(18) + "B".repeat(3) + "C".repeat(5);
@@ -36,14 +34,31 @@ public class SimpleTextArchiver {
 
     private static String unzip(String zipped) {
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i < zipped.length(); i += 2) {
-            var ch = zipped.charAt(i);
-            int count = Integer.parseInt(String.valueOf(zipped.charAt(i + 1)));
-            for (int j = 0; j < count; j++) {
-                result.append(ch);
+        char ch = zipped.charAt(0);
+        StringBuilder countBuilder = new StringBuilder();
+        for (int i = 1; i < zipped.length(); i++) {
+            var current = zipped.charAt(i);
+            if (isDigit(current)) {
+                countBuilder.append(current);
+            } else {
+                unzipChar(countBuilder, result, ch);
+                countBuilder.setLength(0);
+                ch = current;
             }
         }
-        return result.toString();
+        unzipChar(countBuilder, result, ch);
 
+        return result.toString();
+    }
+
+    private static void unzipChar(StringBuilder countBuilder, StringBuilder result, char ch) {
+        int count = Integer.parseInt(countBuilder.toString());
+        for (int j = 0; j < count; j++) {
+            result.append(ch);
+        }
+    }
+
+    private static boolean isDigit(char ch) {
+        return ch >= '0' && ch <= '9';
     }
 }

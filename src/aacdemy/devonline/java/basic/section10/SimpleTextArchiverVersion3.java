@@ -1,8 +1,6 @@
 package aacdemy.devonline.java.basic.section10;
 
-import aacdemy.devonline.java.basic.section06_array.StringBasicMethods;
-
-public class SimpleTextArchiver {
+public class SimpleTextArchiverVersion3 {
     public static void main(String[] args) {
 
         String source = "A".repeat(18) + "B".repeat(3) + "C".repeat(5);
@@ -24,14 +22,25 @@ public class SimpleTextArchiver {
             if (current == prev) {
                 count++;
             } else {
-                result.append(prev).append(count);
+                zipChar(result, prev, count);
                 prev = current;
                 count = 1;
             }
         }
-        result.append(prev).append(count);
+        zipChar(result, prev, count);
         return result.toString();
 
+    }
+
+    private static void zipChar(StringBuilder result, char prev, int count) {
+        int quotient = count / 9;
+        int remainder = count % 9;
+        for (int i = 0; i < quotient; i++) {
+            result.append(prev).append(9);
+        }
+        if (remainder != 0) {
+            result.append(prev).append(remainder);
+        }
     }
 
     private static String unzip(String zipped) {

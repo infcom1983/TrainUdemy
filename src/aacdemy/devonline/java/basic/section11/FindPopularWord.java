@@ -1,9 +1,11 @@
 package aacdemy.devonline.java.basic.section11;
 
+import java.util.Arrays;
+
 public class FindPopularWord {
     public static void main(String[] args) {
 
-        String text = "hello java world java hello I Hello Java World java";
+        String text = "hello,java-world\t java hello:I? Hello! Java World. java";
 
         String word = findMostPopularWordInText(text);
 
@@ -17,7 +19,24 @@ public class FindPopularWord {
     }
 
     private static String[] findAllWordsInText(String text) {
-        return text.split(" ");
+        //return text.split(" ");
+        String[] result = new String[text.length()];
+        int index = 0;
+
+        StringBuilder wordBuilder = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            var ch = text.charAt(i);
+            if (Character.isLetter(ch) || Character.isDigit(ch)) {
+                wordBuilder.append(ch);
+            } else if (wordBuilder.length() > 0) {
+                result[index++] = wordBuilder.toString();
+                wordBuilder.setLength(0);
+            }
+        }
+        if (wordBuilder.length() > 0) {
+            result[index++] = wordBuilder.toString();
+        }
+        return Arrays.copyOf(result, index);
     }
 
     private static String[][] findUniqueWordsAndCounts(String[] words) {
